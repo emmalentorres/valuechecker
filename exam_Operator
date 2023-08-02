@@ -1,0 +1,40 @@
+class Operator:
+    def __init__(self):
+        self.prices = {}
+
+    def add_price(self, prefix, price):
+        self.prices[prefix] = price
+
+    def get_cheapest_operator(self, telephone_number):
+        cheapest_price = float('inf')
+        cheapest_operator = None
+
+        for prefix, price in self.prices.items():
+            if telephone_number.startswith(prefix) and price < cheapest_price:
+                cheapest_price = price
+                cheapest_operator = prefix
+
+        return cheapest_operator, cheapest_price
+
+
+class OperatorManager:
+    def __init__(self):
+        self.operators = {}
+
+    def add_operator(self, name, price_list):
+        operator = Operator()
+        for prefix, price in price_list:
+            operator.add_price(prefix, price)
+        self.operators[name] = operator
+
+    def get_cheapest_operator(self, telephone_number):
+        cheapest_price = float('inf')
+        cheapest_operator = None
+
+        for name, operator in self.operators.items():
+            prefix, price = operator.get_cheapest_operator(telephone_number)
+            if price < cheapest_price:
+                cheapest_price = price
+                cheapest_operator = name
+
+        return cheapest_operator, cheapest_price
